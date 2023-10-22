@@ -55,7 +55,7 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250,
+      height: 350,
       child: Column(
         children: [
 
@@ -69,7 +69,7 @@ class _MovieHorizontalListViewState extends State<MovieHorizontalListView> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
             )
           )
@@ -98,7 +98,7 @@ class _Slide extends StatelessWidget {
 
           //* Image
           SizedBox(
-            width: 150,
+            height: 230,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(

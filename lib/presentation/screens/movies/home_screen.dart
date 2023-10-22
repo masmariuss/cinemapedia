@@ -30,12 +30,24 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
 
     ref.read(nowPlayingMovieProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovies = ref.watch(nowPlayingMovieProvider);
+
+    final initialLoading = ref.watch(initialLoadindgProvider);
+
+    if (initialLoading) return const FullScreenLoader();
+
+
     final slideShowMovies = ref.watch(moviesSlideshowProvider);
+    final nowPlayingMovies = ref.watch(nowPlayingMovieProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     // if (nowPlayingMovies.length == 0 )return CircularProgressIndicator();
 
@@ -81,29 +93,30 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               ),
 
               MovieHorizontalListView(
-                movies: nowPlayingMovies,
-                title: 'Próximamente',
-                subTitle: 'Este mes',
-                loadNextPage: () {
-                  ref.read(nowPlayingMovieProvider.notifier).loadNextPage();
-                }
-              ),
-
-              MovieHorizontalListView(
-                movies: nowPlayingMovies,
+                movies: popularMovies,
                 title: 'Populares',
                 // subTitle: '',
                 loadNextPage: () {
-                  ref.read(nowPlayingMovieProvider.notifier).loadNextPage();
+                  ref.read(popularMoviesProvider.notifier).loadNextPage();
                 }
               ),
 
               MovieHorizontalListView(
-                movies: nowPlayingMovies,
+                movies: upcomingMovies,
+                title: 'Próximamente',
+                subTitle: 'Este mes',
+                loadNextPage: () {
+                  ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+                }
+              ),
+
+
+              MovieHorizontalListView(
+                movies: topRatedMovies,
                 title: 'Mejor calificadas',
                 // subTitle: '',
                 loadNextPage: () {
-                  ref.read(nowPlayingMovieProvider.notifier).loadNextPage();
+                  ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                 }
               ),
 
